@@ -1,12 +1,27 @@
 @import "tailwindcss";
 
-@font-face {
-    font-family: "Space Grotesk";
-    src: url("/fonts/SpaceGrotesk-Variable.ttf") format("truetype");
-    font-display: swap;
+:root {
+    font-optical-sizing: auto;
 }
 
 @theme {
-    --font-sans: "Space Grotesk", sans-serif;
-    --font-display: "Space Grotesk", sans-serif;
+    --font-sans: "Rubik", sans-serif;
+    --font-display: "Rubik", sans-serif;
+
+    --color-primary: var(--injected-color-primary);
+    --color-on-primary: var(--injected-color-on-primary);
+    --color-primary-container: var(--injected-color-primary-container);
+    --color-on-primary-container: var(--injected-color-on-primary-container);
+    --color-secondary: var(--injected-color-secondary);
+    --color-on-secondary: var(--injected-color-on-secondary);
+    --color-secondary-container: var(--injected-color-secondary-container);
+    --color-on-secondary-container: var(
+        --injected-color-on-secondary-container
+    );
+    --color-surface: var(--injected-color-surface);
+    --color-on-surface: var(--injected-color-on-surface);
+    --color-on-surface-variant: var(--injected-color-on-surface-variant);
+    --color-outline: var(--injected-color-outline);
+    --color-outline-variant: var(--injected-color-outline-variant);
+    --color-shadow: var(--injected-color-shadow);
 }
