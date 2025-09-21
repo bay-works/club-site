@@ -18,7 +18,6 @@ const FOOTER = [
         links: [
             { name: 'showcase', href: '/showcase' },
             { name: 'members', href: '/members' },
-            { name: 'philosophy', href: '/philosophy' },
             { name: 'code of conduct', href: '/code-of-conduct' },
         ],
     },
@@ -59,7 +58,7 @@ export const Footer: FC = () => {
                                                 ? 'noopener noreferrer'
                                                 : undefined
                                         }
-                                        className="text-on-surface-variant hover:text-on-surface transition-colors"
+                                        className="text-on-surface-variant hover:underline"
                                     >
                                         {link.name}
                                     </a>
