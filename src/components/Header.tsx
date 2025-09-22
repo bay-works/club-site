@@ -18,7 +18,6 @@ export const Header: FC = () => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const shouldBeHidden = scrollY < 10;
-            console.log({ scrollY, shouldBeHidden, tweenedToHidden });
             if (shouldBeHidden === tweenedToHidden) return;
             if (shouldBeHidden) scrollTween.current.run(0);
             else scrollTween.current.run(1);
@@ -27,7 +26,6 @@ export const Header: FC = () => {
         window.addEventListener('scroll', handleScroll);
 
         const onUpdate = scrollTween.current.onUpdate((value) => {
-            console.log(value);
             if (!effectRef.current) return;
             effectRef.current.style.setProperty(
                 '--tw-gradient-from',
