@@ -35,7 +35,7 @@ const FOOTER = [
 
 export const Footer: FC = () => {
     return (
-        <footer className="w-full flex justify-center bg-gradient-to-b from-transparent to-black/40 p-8">
+        <footer className="w-full flex justify-center bg-gradient-to-b from-transparent to-black/10 dark:to-black/40 p-8">
             <div className="w-full max-w-4xl flex flex-col gap-8 text-on-surface-variant">
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     {FOOTER.map((section) => (
