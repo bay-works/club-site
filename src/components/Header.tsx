@@ -14,7 +14,7 @@ export const Header: FC = () => {
 
     useEffect(() => {
         scrollTween.current.setup({ mass: 1, tension: 170, friction: 26 });
-        let tweenedToHidden = true;
+        let tweenedToHidden = window.scrollY < 10;
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const shouldBeHidden = scrollY < 10;
@@ -23,7 +23,7 @@ export const Header: FC = () => {
             else scrollTween.current.run(1);
             tweenedToHidden = shouldBeHidden;
         };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
 
         const onUpdate = scrollTween.current.onUpdate((value) => {
             if (!effectRef.current) return;
@@ -32,7 +32,7 @@ export const Header: FC = () => {
                 `color-mix(in oklab, var(--color-surface) ${value * 100}%, transparent)`,
             );
         });
-        scrollTween.current.run(0);
+        scrollTween.current.run(tweenedToHidden ? 0 : 1);
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
