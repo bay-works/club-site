@@ -7,7 +7,7 @@ export const WordmarkLogo: FC<WordmarkLogoProps> = (props) => (
         viewBox="0 0 238 52"
         xmlns="http://www.w3.org/2000/svg"
         {...props}
-        className={`fill-current ${props.className}`}
+        className={`fill-current ${props.className ?? ''}`}
     >
         <title>bay.works</title>
         <path d="M28.2373 22.0401C28.2373 25.461 25.4641 28.2342 22.0432 28.2342C18.6223 28.2342 15.8491 25.461 15.8491 22.0401C15.8491 18.6192 18.6223 15.846 22.0432 15.846C25.4641 15.846 28.2373 18.6192 28.2373 22.0401Z" />
