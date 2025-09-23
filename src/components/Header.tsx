@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { SpringTween } from '../utilities/SpringTween';
+import { BluredBorder } from './BluredBorder';
 import { WordmarkLogo } from './WordmarkLogo';
 
 const MENU_LINKS = [
@@ -27,10 +28,7 @@ export const Header: FC = () => {
 
         const onUpdate = scrollTween.current.onUpdate((value) => {
             if (!effectRef.current) return;
-            effectRef.current.style.setProperty(
-                '--tw-gradient-from',
-                `color-mix(in oklab, var(--color-surface) ${value * 100}%, transparent)`,
-            );
+            effectRef.current.style.opacity = value.toString();
         });
         scrollTween.current.run(tweenedToHidden ? 0 : 1);
 
@@ -42,8 +40,13 @@ export const Header: FC = () => {
 
     return (
         <header className="fixed top-0 z-50 w-full flex justify-center transition-all duration-300 px-4 md:px-8 py-4">
+            <BluredBorder
+                className="absolute top-0 left-0 -z-10 h-32 md:h-40 w-full pointer-events-none"
+                blur={32}
+                steps={8}
+            />
             <div
-                className="absolute w-full top-0 left-0 -z-10 h-32 bg-gradient-to-b to-transparent pointer-events-none"
+                className="absolute w-full top-0 left-0 -z-10 h-32 md:h-40 bg-gradient-to-b from-surface/80 via-40% via-surface/60 to-transparent pointer-events-none"
                 ref={effectRef}
             />
             <div className="w-full max-w-6xl flex items-center">
