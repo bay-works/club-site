@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import { type FC, useEffect, useRef } from 'react';
-import heroImage from '../assets/golden-gate.webp';
+import heroImage from '../assets/golden-gate-bridge.webp';
 import { SpringTween } from '../utilities/SpringTween';
 
 export const HeroSection: FC = () => {
