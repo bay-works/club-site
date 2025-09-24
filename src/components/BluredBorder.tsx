@@ -44,27 +44,32 @@ export const BluredBorder: FC<BluredBorderProps> = ({
     return (
         <div {...props} className={className}>
             <div className="absolute inset-0 overflow-hidden">
-                {gradientSteps.map((step) => (
-                    <div
-                        key={step.id}
-                        style={{
-                            zIndex: step.zIndex + 1,
-                            maskImage: `linear-gradient(${reverse ? '' : 'to top, '}${(
-                                [
-                                    ['transparent', step.mask[0]],
-                                    ['black', step.mask[1]],
-                                    ['black', step.mask[2]],
-                                    ['transparent', step.mask[3]],
-                                ] as const
-                            )
-                                .filter((v) => v[1] !== undefined)
-                                .map((v) => `${v[0]} ${v[1]}%`)
-                                .join(', ')})`,
-                            backdropFilter: `blur(${step.blur}px)`,
-                        }}
-                        className="absolute h-full w-full"
-                    />
-                ))}
+                {gradientSteps.map((step) => {
+                    const maskImage = `linear-gradient(${reverse ? '' : 'to top, '}${(
+                        [
+                            ['transparent', step.mask[0]],
+                            ['black', step.mask[1]],
+                            ['black', step.mask[2]],
+                            ['transparent', step.mask[3]],
+                        ] as const
+                    )
+                        .filter((v) => v[1] !== undefined)
+                        .map((v) => `${v[0]} ${v[1]}%`)
+                        .join(', ')})`;
+                    return (
+                        <div
+                            key={step.id}
+                            style={{
+                                zIndex: step.zIndex + 1,
+                                maskImage,
+                                WebkitMaskImage: maskImage,
+                                backdropFilter: `blur(${step.blur}px)`,
+                                WebkitBackdropFilter: `blur(${step.blur}px)`,
+                            }}
+                            className="absolute h-full w-full"
+                        />
+                    );
+                })}
             </div>
         </div>
     );
