@@ -151,6 +151,12 @@ const convertOklchToOKLab = (
     return [l, a, b];
 };
 
+export interface SerializedOklchColor {
+    l: number;
+    c: number;
+    h: number;
+}
+
 export class OklchColor implements Lerpable<OklchColor> {
     public l: number; // lightness
     public c: number; // chroma
@@ -219,6 +225,10 @@ export class OklchColor implements Lerpable<OklchColor> {
         return new OklchColor(l, c, h);
     }
 
+    public static fromSerialized(obj: SerializedOklchColor): OklchColor {
+        return new OklchColor(obj.l, obj.c, obj.h);
+    }
+
     public static fromOKLab(l: number, a: number, b: number): OklchColor {
         const [L, c, h] = convertOKLabToOklch(l, a, b);
         return new OklchColor(L, c, h);
@@ -227,6 +237,13 @@ export class OklchColor implements Lerpable<OklchColor> {
     public static fromRGB(r: number, g: number, b: number): OklchColor {
         const [l, a, b_] = convertRgbToOKLab(r, g, b);
         return OklchColor.fromOKLab(l, a, b_);
+    }
+
+    public static fromInt(color: number): OklchColor {
+        const r = (color >> 16) & 0xff;
+        const g = (color >> 8) & 0xff;
+        const b = color & 0xff;
+        return OklchColor.fromRGB(r, g, b);
     }
 
     public static fromHex(hex: string): OklchColor {
@@ -238,6 +255,14 @@ export class OklchColor implements Lerpable<OklchColor> {
         const g = parseInt(strippedHex.slice(2, 4), 16);
         const b = parseInt(strippedHex.slice(4, 6), 16);
         return OklchColor.fromRGB(r, g, b);
+    }
+
+    public toSerialized(): SerializedOklchColor {
+        return {
+            l: this.l,
+            c: this.c,
+            h: this.h,
+        };
     }
 
     public toOKLab(): [number, number, number] {

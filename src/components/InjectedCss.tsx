@@ -1,7 +1,12 @@
 import { type FC, useEffect, useMemo, useRef, useState } from 'react';
 import type { OklchColor } from '../utilities/OklchColor';
 import { SpringTween } from '../utilities/SpringTween';
-import { type ColorSchemeKeys, theme } from '../utilities/theme';
+import {
+    type ColorScheme,
+    type ColorSchemeKeys,
+    deserializeColorScheme,
+    type SerializedColorScheme,
+} from '../utilities/theme';
 
 type TweenableColorTheme = Record<ColorSchemeKeys, SpringTween<OklchColor>>;
 
@@ -9,24 +14,40 @@ const cammelCaseToKebabCase = (str: string): string => {
     return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 };
 
-export const InjectedCss: FC = () => {
+interface InjectedCssProps {
+    theme: {
+        light: SerializedColorScheme;
+        dark: SerializedColorScheme;
+    };
+}
+
+export const InjectedCss: FC<InjectedCssProps> = ({ theme }) => {
+    const deserializedTheme = useMemo<{
+        light: ColorScheme;
+        dark: ColorScheme;
+    }>(() => {
+        return {
+            light: deserializeColorScheme(theme.light),
+            dark: deserializeColorScheme(theme.dark),
+        };
+    }, [theme]);
     const memoized = useMemo(() => {
         const parts = [':root{'];
-        for (const [key, value] of Object.entries(theme.colors.dark)) {
+        for (const [key, value] of Object.entries(deserializedTheme.dark)) {
             parts.push(
                 `--injected-color-${cammelCaseToKebabCase(key)}:${value.stringify()};`,
             );
         }
         parts.push('}');
         parts.push('@media(prefers-color-scheme:light){:root{');
-        for (const [key, value] of Object.entries(theme.colors.light)) {
+        for (const [key, value] of Object.entries(deserializedTheme.light)) {
             parts.push(
                 `--injected-color-${cammelCaseToKebabCase(key)}:${value.stringify()};`,
             );
         }
         parts.push('}}');
         return parts.join('');
-    }, []);
+    }, [deserializedTheme]);
     const [pageLoaded, setPageLoaded] = useState(false);
     const isDarkMode = useRef<boolean>(true);
 
@@ -37,8 +58,8 @@ export const InjectedCss: FC = () => {
         isDarkMode.current = query.matches;
 
         const initalTheme = isDarkMode.current
-            ? theme.colors.dark
-            : theme.colors.light;
+            ? deserializedTheme.dark
+            : deserializedTheme.light;
         const springProperties = {
             mass: 1,
             tension: 280,
@@ -63,8 +84,8 @@ export const InjectedCss: FC = () => {
                 document.documentElement.style.setProperty(
                     `--injected-color-${cammelCaseToKebabCase(key_)}`,
                     (isDarkMode.current
-                        ? theme.colors.dark
-                        : theme.colors.light)[key].stringify(),
+                        ? deserializedTheme.dark
+                        : deserializedTheme.light)[key].stringify(),
                 );
             });
             updates[key] = [onUpdate, onFinish];
@@ -73,7 +94,9 @@ export const InjectedCss: FC = () => {
         for (const [key, _value] of Object.entries(updates)) {
             document.documentElement.style.setProperty(
                 `--injected-color-${cammelCaseToKebabCase(key)}`,
-                (isDarkMode.current ? theme.colors.dark : theme.colors.light)[
+                (isDarkMode.current
+                    ? deserializedTheme.dark
+                    : deserializedTheme.light)[
                     key as ColorSchemeKeys
                 ].stringify(),
             );
@@ -82,8 +105,8 @@ export const InjectedCss: FC = () => {
         // Listen for color scheme changes
         const onColorSchemeChange = (event: MediaQueryListEvent) => {
             const newTheme = event.matches
-                ? theme.colors.dark
-                : theme.colors.light;
+                ? deserializedTheme.dark
+                : deserializedTheme.light;
             isDarkMode.current = event.matches;
             for (const [key, value] of Object.entries(newTheme)) {
                 const key_ = key as ColorSchemeKeys;
@@ -101,7 +124,7 @@ export const InjectedCss: FC = () => {
             }
             query.removeEventListener('change', onColorSchemeChange);
         };
-    }, []);
+    }, [deserializedTheme]);
     if (pageLoaded) return null;
 
     const base64EncodedCss = btoa(memoized);

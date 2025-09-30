@@ -1,8 +1,20 @@
 ---
 import '../styles/global.css';
+import { type ColorScheme, defaultTheme } from '../utilities/theme';
+import { Header } from './Header';
 import { InjectedCss } from './InjectedCss';
 
-const { title, description } = Astro.props;
+interface Props {
+    title: string;
+    description: string;
+    theme?: {
+        dark: ColorScheme;
+        light: ColorScheme;
+    };
+    header?: 'off' | 'on' | 'on-aware';
+}
+
+const { title, description, theme, header = 'on' } = Astro.props;
 ---
 
 <html lang="en" class="w-full h-full font-sans">
@@ -29,13 +41,16 @@ const { title, description } = Astro.props;
 
         <link rel="icon" href="/LogoSingle.svg" />
 
-        <InjectedCss client:load />
+        <InjectedCss theme={theme ?? defaultTheme} client:load />
     </head>
     <body
         class="w-full min-h-full flex justify-center overflow-x-clip bg-surface text-on-surface font-sans"
     >
-        <div class="w-full flex flex-col gap-8 items-center">
-            <slot />
+        <div class="w-full flex flex-col items-center min-h-screen">
+            {header !== 'off' ? <Header client:load headerHeightAware={header === 'on-aware'} /> : null}
+            <div class="w-full flex flex-col items-center gap-8 flex-grow">
+                <slot />
+            </div>
         </div>
     </body>
 </html>

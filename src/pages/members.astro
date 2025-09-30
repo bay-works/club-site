@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import japaneseTeaGarden from '../assets/japanese-tea-garden.webp';
+import { clubMembers } from '../assets/members/members';
+import { Footer } from '../components/Footer';
+import Page from '../components/Page.astro';
+
+const members = await Promise.all(
+    Object.values(clubMembers).map(async (member) => ({
+        ...member,
+        profilePhoto: (await member.profilePhoto()).default,
+    })),
+);
+---
+
+<Page title="members | bay.works" description="a list of members in bay.works." header='on-aware'>
+    <div class="h-80 md:h-100 flex flex-col justify-center items-center w-full relative overflow-hidden isolate px-4 md:px-8">
+        <Image 
+          src={japaneseTeaGarden}
+          alt="Japanese Tea Garden in San Francisco, California"
+          class="absolute top-0 left-0 w-full h-full object-cover object-center -z-20"
+        />
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-surface/60 to-surface flex items-center justify-center p-4 md:p-8">
+            <div class="w-full max-w-5xl flex flex-col">
+                <h2
+                    class="text-4xl md:text-6xl font-bold"
+                >
+                    club members
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-grow items-center justify-center w-full px-4 md:px-8 gap-4 flex-col">
+        <div class="w-full max-w-5xl flex flex-col gap-4">
+            <h2 class="text-3xl font-bold">our members</h2>
+        </div>
+        <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {members.map((member) => (
+                <a href={`/member/${member.id}`} class="flex items-center gap-4 p-2 border-2 border-primary-container text-on-primary-container rounded-3xl transition-colors hover:bg-primary-container">
+                    <Image src={member.profilePhoto} alt={`${member.firstName} ${member.lastInitial}.`} class="rounded-2xl w-16 h-16 object-cover" />
+                    <div class="flex flex-col">
+                        <h3 class="text-xl font-semibold">{member.firstName} {member.lastInitial}.</h3>
+                        <p class="text-sm">{member.role}</p>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </div>
+    <Footer />
+</Page>

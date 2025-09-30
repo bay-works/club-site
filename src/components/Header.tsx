@@ -4,12 +4,16 @@ import { SpringTween } from '../utilities/SpringTween';
 import { BluredBorder } from './BluredBorder';
 import { WordmarkLogo } from './WordmarkLogo';
 
+interface HeaderProps {
+    headerHeightAware?: boolean;
+}
+
 const MENU_LINKS = [
     { href: '/showcase', label: 'Showcase' },
     { href: '/members', label: 'Members' },
 ];
 
-export const Header: FC = () => {
+export const Header: FC<HeaderProps> = ({ headerHeightAware = false }) => {
     const scrollTween = useRef(SpringTween.create(0));
     const effectRef = useRef<HTMLDivElement>(null);
 
@@ -39,14 +43,16 @@ export const Header: FC = () => {
     }, []);
 
     return (
-        <header className="fixed top-0 z-50 w-full flex justify-center transition-all duration-300 px-4 md:px-8 py-4">
+        <header
+            className={`${headerHeightAware ? 'fixed' : 'sticky pb-12'} top-0 z-50 w-full flex justify-center transition-all duration-300 px-4 md:px-8 py-4`}
+        >
             <BluredBorder
-                className="absolute top-0 left-0 -z-10 h-32 md:h-40 w-full pointer-events-none"
+                className="absolute top-0 left-0 -z-10 h-32 md:h-32 w-full pointer-events-none"
                 blur={32}
                 steps={8}
             />
             <div
-                className="absolute w-full top-0 left-0 -z-10 h-32 md:h-40 bg-gradient-to-b from-surface/80 via-40% via-surface/60 to-transparent pointer-events-none"
+                className="absolute w-full top-0 left-0 -z-10 h-32 bg-gradient-to-b from-surface/80 via-40% via-surface/60 to-transparent pointer-events-none"
                 ref={effectRef}
             />
             <div className="w-full max-w-6xl flex items-center">

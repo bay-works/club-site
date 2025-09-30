@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+import { getSvgPath } from 'figma-squircle';
+import { type ClubMember, clubMembers } from '../../assets/members/members';
+import { Footer } from '../../components/Footer';
+import Page from '../../components/Page.astro';
+import { createThemeFromColor } from '../../utilities/theme';
+
+export async function getStaticPaths() {
+    return await Promise.all(
+        Object.values(clubMembers).map(async (member) => ({
+            params: { id: member.id.toString() },
+            props: {
+                member: {
+                    ...member,
+                    profilePhoto: (await member.profilePhoto()).default,
+                    content: (await member.content()).default,
+                },
+            },
+        })),
+    );
+}
+
+interface MemberProfileProps
+    extends Omit<ClubMember<number>, 'profilePhoto' | 'content'> {
+    profilePhoto: ImageMetadata;
+    content: AstroComponentFactory;
+}
+
+interface Props {
+    member: MemberProfileProps;
+}
+
+const { member } = Astro.props;
+const Content = member.content;
+---
+<Page
+    title={`${member.firstName} ${member.lastInitial}. | bay.works`}
+    description={member.bio}
+    theme={createThemeFromColor(member.theme)}
+>
+    <div class="w-full flex justify-center px-4 md:px-8">
+        <div class="w-full flex gap-8 max-w-4xl items-center">
+            <Image src={member.profilePhoto} alt="Profile Image" class="w-32 h-32 object-cover" style={{
+                clipPath: `path('${getSvgPath({
+                    width: 128,
+                    height: 128,
+                    cornerRadius: 24,
+                    cornerSmoothing: 0.6,
+                })}')`,
+            }} />
+            <div class="flex flex-col gap-2">
+            <h1 class="text-4xl md:text-5xl font-bold">
+                {member.firstName} {member.lastInitial}.
+            </h1>
+            <p class="text-lg text-on-surface-variant">{member.pronouns} • {member.role}</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex-grow w-full max-w-4xl text-on-surface-variant flex flex-col gap-4">
+        <Content />
+    </div>
+    <Footer />
+</Page>

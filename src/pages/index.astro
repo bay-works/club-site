@@ -7,84 +7,85 @@ import { HeroSection } from '../components/HeroSection';
 import Page from '../components/Page.astro';
 ---
 
-<Page title="bay.works" description="we are a computer science club based in Cupertino.">
-    <Header client:load />
+<Page title="bay.works" description="we are a computer science club based in cupertino." header='on-aware'>
     <!-- Hero -->
     <HeroSection client:load />
-    <section class="w-full max-w-6xl px-4 md:px-8 flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
-            <h2 class="text-3xl font-bold">our philosophy</h2>
-            <p class="text-lg">build to learn, learn to build</p>
-        </div>
-        <p class="text-on-surface-variant max-w-3xl">
-            the fastest way to learn is by doing. collaboration is key.
-        </p>
-        <p class="text-on-surface-variant max-w-3xl">
-            these are the key principles that guide us; we plan, workshop, and
-            review.
-        </p>
-        <div class="grid grid-rows-3 md:grid-rows-1 md:grid-cols-3 gap-6 mt-4">
-            {[
-                {
-                    icon: Lightbulb,
-                    title: 'plan',
-                    description:
-                        'we brainstorm and plan our projects thoroughly before starting development.',
-                },
-                {
-                    icon: Wrench,
-                    title: 'workshop',
-                    description:
-                        'we build our projects collaboratively, sharing knowledge and skills.',
-                },
-                {
-                    icon: Ship,
-                    title: 'review',
-                    description:
-                        'we review our work to learn from our experiences and improve, then repeat.'
-                },
-            ].map(({ icon: Icon, title, description }) => (
-                <div class="flex md:flex-col gap-4 md:gap-2 p-4 border-2 border-primary-container text-on-primary-container rounded-2xl">
-                    <div class="rounded-lg flex p-2 bg-primary-container text-on-primary-container w-max h-max">
-                        <Icon className="w-4 h-4" />
+    <div class="px-4 md:px-8 flex flex-col items-center gap-4">
+        <section class="w-full max-w-6xl flex flex-col gap-4">
+            <div class="flex flex-col">
+                <h2 class="text-3xl font-bold">our philosophy</h2>
+                <p class="text-lg text-on-surface-variant italic">build to learn, learn to build</p>
+            </div>
+            <p class="text-on-surface-variant max-w-3xl">
+                the fastest way to learn is by doing. collaboration is key.
+            </p>
+            <p class="text-on-surface-variant max-w-3xl">
+                these are the key principles that guide us; we plan, workshop, and
+                review.
+            </p>
+            <div class="grid grid-rows-3 md:grid-rows-1 md:grid-cols-3 gap-6">
+                {[
+                    {
+                        icon: Lightbulb,
+                        title: 'plan',
+                        description:
+                            'we brainstorm and plan our projects thoroughly before starting development.',
+                    },
+                    {
+                        icon: Wrench,
+                        title: 'workshop',
+                        description:
+                            'we build our projects collaboratively, sharing knowledge and skills.',
+                    },
+                    {
+                        icon: Ship,
+                        title: 'review',
+                        description:
+                            'we review our work to learn from our experiences and improve, then repeat.'
+                    },
+                ].map(({ icon: Icon, title, description }) => (
+                    <div class="flex md:flex-col gap-4 md:gap-2 p-4 border-2 border-primary-container text-on-primary-container rounded-2xl">
+                        <div class="rounded-lg flex p-2 bg-primary-container text-on-primary-container w-max h-max">
+                            <Icon className="w-4 h-4" />
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h3 class="text-2xl font-semibold">{title}</h3>
+                            <p class="text-on-primary-variant">
+                                {description}
+                            </p>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-2">
-                        <h3 class="text-2xl font-semibold">{title}</h3>
-                        <p class="text-on-primary-variant">
-                            {description}
-                        </p>
-                    </div>
-                </div>
-            ))}
-        </div>
-    </section>
-    <section class="w-full max-w-6xl px-4 md:px-8 flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
-            <h2 class="text-3xl font-bold">sponsors</h2>
-            <p class="text-lg">we are grateful for the support of our sponsors</p>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            {[
-                {
-                    name: 'Hack Club',
-                    href: 'https://hackclub.com',
-                    logo: hackClubLogo.src,
-                }
-            ].map(({ name, href, logo }) => (
-                <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="flex items-center justify-center p-4 border-2 border-primary-container rounded-xl hover:bg-primary-container transition-colors"
-                >
-                    <img
-                        src={logo}
-                        alt={`${name} logo`}
-                        class="max-h-12 object-contain"
-                    />
-                </a>
-            ))}
-        </div>
-    </section>
+                ))}
+            </div>
+        </section>
+        <section class="w-full max-w-6xl flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <h2 class="text-3xl font-bold">sponsors</h2>
+                <p class="text-on-surface-variant">we are grateful for the support of our sponsors</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {[
+                    {
+                        name: 'Hack Club',
+                        href: 'https://hackclub.com',
+                        logo: hackClubLogo.src,
+                    }
+                ].map(({ name, href, logo }) => (
+                    <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center justify-center p-4 border-2 border-primary-container rounded-xl hover:bg-primary-container transition-colors"
+                    >
+                        <img
+                            src={logo}
+                            alt={`${name} logo`}
+                            class="max-h-12 object-contain"
+                        />
+                    </a>
+                ))}
+            </div>
+        </section>
+    </div>
     <Footer />
 </Page>
