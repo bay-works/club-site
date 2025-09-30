@@ -30,10 +30,7 @@ const members = await Promise.all(
             </div>
         </div>
     </div>
-    <div class="flex flex-grow items-center justify-center w-full px-4 md:px-8 gap-4 flex-col">
-        <div class="w-full max-w-5xl flex flex-col gap-4">
-            <h2 class="text-3xl font-bold">our members</h2>
-        </div>
+    <div class="flex flex-grow items-center w-full px-4 md:px-8 gap-4 flex-col">
         <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {members.map((member) => (
                 <a href={`/member/${member.id}`} class="flex items-center gap-4 p-2 border-2 border-primary-container text-on-primary-container rounded-3xl transition-colors hover:bg-primary-container">
