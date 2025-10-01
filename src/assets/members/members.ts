@@ -45,7 +45,7 @@ export const clubMembers = {
         lastInitial: 'h',
         pronouns: 'travis/scott',
         role: 'secretary',
-        theme: '#eacde0ff',
+        theme: '#eacde0',
         bio: 'koko is a high school student and the secretary of bay.works.',
         profilePhoto: () => import('./2/profile.jpeg'),
         content: () => import('./2/content.astro'),
