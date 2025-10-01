@@ -39,5 +39,16 @@ export const clubMembers = {
         profilePhoto: () => import('./1/profile.jpeg'),
         content: () => import('./1/content.astro'),
     },
+    '2': {
+        id: 2,
+        firstName: 'koko',
+        lastInitial: 'h',
+        pronouns: 'travis/scott',
+        role: 'secretary',
+        theme: '#eacde0ff',
+        bio: 'koko is a highschooler and secretary.',
+        profilePhoto: () => import('./2/profile.jpeg'),
+        content: () => import('./2/content.astro'),
+    },
     // Insert your member info below!
 } satisfies ClubMembersMap;
