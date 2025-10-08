@@ -50,5 +50,16 @@ export const clubMembers = {
         profilePhoto: () => import('./2/profile.jpeg'),
         content: () => import('./2/content.astro'),
     },
+    '3': {
+        id: 3,
+        firstName: 'logan',
+        lastInitial: 'k',
+        pronouns: 'he/him',
+        role: 'club member',
+        theme: '#0000ff',
+        bio: 'logan is a high school student and a member of bay.works.',
+        profilePhoto: () => import('./3/profile.jpeg'),
+        content: () => import('./3/content.astro'),
+    },
     // Insert your member info below!
 } satisfies ClubMembersMap;
